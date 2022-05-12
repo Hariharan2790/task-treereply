@@ -1,18 +1,17 @@
 import React, { useState } from "react";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import "./App.css";
-import Reply from "./Reply";
 import swal from "sweetalert";
 
-function App() {
-  const [msg, setMsg] = useState("");
+function Reply({ value, text, index, msg, setMsg }) {
+  const [replyMsg, setReplyMsg] = useState("");
   const [nextMsg, setNextMsg] = useState([]);
 
   const handleClick = () => {
     if (msg === "") {
       swal("Fail", "Please enter some text", "error");
     } else {
+      setReplyMsg(msg);
       const msgCopy = [...nextMsg];
       msgCopy.push(msg);
       setNextMsg(msgCopy);
@@ -21,27 +20,26 @@ function App() {
   };
 
   return (
-    <div className="tree_reply">
-      <TextField
-        id="filled-basic"
-        label="Type Something....."
-        variant="filled"
-        value={msg}
-        onChange={(e) => setMsg(e.target.value)}
-      />
+    <div>
       <div className="hello">
-        <p>Hello Everyone</p>
+        <p>{value}</p>
         <Button variant="contained" onClick={() => handleClick()}>
           Reply
         </Button>
       </div>
       <div className="reply">
         {nextMsg.map((value, index) => (
-          <Reply value={value} index={index} msg={msg} setMsg={setMsg} />
+          <Reply
+            value={value}
+            index={index}
+            msg={msg}
+            text={text}
+            setMsg={setMsg}
+          />
         ))}
       </div>
     </div>
   );
 }
 
-export default App;
+export default Reply;
